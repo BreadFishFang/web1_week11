@@ -110,7 +110,7 @@ section:nth-child(2) article{
 
     /* you can also tell all rows or all columns to be a certain size */
     grid-auto-rows: 120px;
-
+   
     /* you can add space between columns */
     gap:1em 1em; /* horizontal gap then vertical gap */
 }
@@ -134,7 +134,7 @@ section:nth-child(2) div:nth-child(3){
 section:nth-child(3) article{
     display: grid;
 
-    grid-template-columns: 1fr 2 fr 1 fr;
+    grid-template-columns: 1fr 2fr 1fr;
     grid-auto-rows: 120px;
 
     /* tell the grid to automatically fill up any empty space */
