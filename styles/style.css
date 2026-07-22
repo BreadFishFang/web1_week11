@@ -51,3 +51,164 @@ table {
 /****************************************************************************************
                          main styles
 ****************************************************************************************/
+
+h1{
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    /* margin is outside the element*/
+    margin: 20px 0;
+    /*padding is inside the element, and has the same background*/
+    padding: 10px;
+    background-color: aquamarine;
+}
+
+h2{
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin:10px 0;
+    padding: 5px; /*padding is between the border and the content */
+    border-bottom: 1px solid black;
+}
+
+article div{
+    background-color: cornflowerblue;
+    border: 2px solid darkblue;
+    font-size: 32px;
+    font-weight: bold;
+    /*you can combine grid and flex - we can make the paragraphs using flex to center the content horizontally and
+    vertically*/
+    display:flex;
+    justify-content:center;
+    align-items: center;
+}
+/****************************************************************************************
+                         grid styles
+****************************************************************************************/
+
+/* style the article in the first section */
+section:nth-child(1) article{
+    /* like flex, you have to make the parent display grid for grid to work */
+    display: grid;
+
+    /* then you have to define the rows and the columns */
+    /* fr stands for fraction, and means take up an amount of the available space */
+    grid-template-columns: 1fr 1fr 1fr;
+
+    /* you can also define rows - a grid item will take up all available space in a column and a row */
+    grid-template-rows: 120px 120px; /* two rows with a height of 120px 
+    .... the third row won't have a height */
+
+}
+
+/* style the section which is a second child */
+section:nth-child(2) article{
+    display: grid;
+    /*you can set up multiple columns or rows of the same size using repeat*/
+    grid-template-columns: repeat(3, 1fr); /* same as : 1fr 1fr 1fr */
+
+    /* you can also tell all rows or all columns to be a certain size */
+    grid-auto-rows: 120px;
+
+    /* you can add space between columns */
+    gap:1em 1em; /* horizontal gap then vertical gap */
+}
+
+/* you can give specifiv instructions to grid items, or to cells within the grid */
+section:nth-child(2) div:nth-child(1){
+    color: azure;
+    /* tell this cell to start at one place, and end at another - spanning multiple cells */
+    grid-column-start: 1;
+    grid-column-end: 3;
+    /* this ends at the start of the third column; so it actually only spans 2 columns */
+}
+
+section:nth-child(2) div:nth-child(3){
+    /* take up 3 rows, start at row 2 */
+    grid-row-start: 2;
+    grid-row-end: span 3; /* makes it stretch across three rows */
+}
+
+/* thisrd grid - this time looking at order */
+section:nth-child(3) article{
+    display: grid;
+
+    grid-template-columns: 1fr 2 fr 1 fr;
+    grid-auto-rows: 120px;
+
+    /* tell the grid to automatically fill up any empty space */
+    grid-auto-flow: dense;
+}
+
+/* make the first frid cell not start at the beginning */
+
+section:nth-child(3) div:nth-child(1){
+    /* you can use grid-area as a shorthand for grid-column and grid-row */
+    grid-area: 2 / 2 /span 2 /span 2 ;
+    /* this is equivalent to writing:
+        grid-row-start:2
+        grid-column-start:2;
+        grid-row-end:span 2;
+        grid-column-end:span 2; */
+}
+
+/* make the second grid cell be last in the visual order */
+section:nth-child(3) div:nth-child(2){
+    order: 1;
+    /* by default, everything has an order vakue of 0 - anything with higher order number comes after them */
+}
+
+/* make another cell span the entire grid width */ 
+section:nth-child(3) div:nth-child(4){
+    grid-column-end:span 3;
+}
+
+
+/*--------------------------------------------------------------------------*/
+/* fourth grid - using a grid map */
+
+section:nth-child(4) article{
+    display: grid;
+    grid-auto-rows: 120px;
+
+    /* use a map to define specific areas of the grid */
+    grid-template-areas: 
+        "header"
+        "cart"
+        "nav"
+        "main"
+        "sidebar"
+        "footer";
+}
+
+/* once you create areas, you have to assign specific items to each area */
+section:nth-child(4) div:nth-child(1){ grid-area: header;}
+section:nth-child(4) div:nth-child(2){ grid-area: cart;}
+section:nth-child(4) div:nth-child(3){ grid-area: nav;}
+section:nth-child(4) div:nth-child(4){ grid-area: main;}
+section:nth-child(4) div:nth-child(5){ grid-area: sidebar;}
+section:nth-child(4) div:nth-child(6){ grid-area: footer;}
+
+/* use a media query to change the mao beyond a specific size */
+@media screen and (min-width:720px){
+    section:nth-child(4) article{
+        grid-template-areas: 
+            "header header cart"
+            "nav nav nav"
+            "main main sidebar"
+            "footer footer footer";
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media  screen and (min-width:960px) {
+    section:nth-child(4) article{
+        grid-template-areas: 
+            "header header header cart"
+            "nav main main sidebar"
+            "nav main main sidebar"
+            "footer footer footer footer";
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
